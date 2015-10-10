@@ -1,24 +1,57 @@
 # Impala
-## Pedagogical Bytecode Interpreter
+## Simple, extensible bytecode interpreter
 
 Impala is a simple bytecode interpreter written in Clojure.
-Written to learn from and teach making use of.
+Written to learn from and to teach making use of.
 
 
 ## Usage
+
+Load everything into namespace.
+
+```clojure
+(use '[impala core lib])
+```
 
 Write a simple program in impala bytecode and execute it,
 printing the whole lifecycle to `stdout`.
 
 ```clojure
-(use 'impala.core
-     'impala.lib)
-
 (let [prog [[SET :a  5]
             [SET :b  3]
             [ADD :a :b]]]
   (run prog true))
 ```
+
+We can even extend the instruction set by defining our own opcodes
+
+* in Clojure
+```clojure
+;; impala.core
+(defn DEL
+  "Delete variable (free memory)"
+  [env a]
+  (swap! env update-in [:vars] dissoc a))
+```
+
+or
+
+* __in Impala byte code__!
+```clojure
+;; impala.lib
+(defop ADD
+  "b := b + a"
+  [a b] [Z]
+  (SET Z 0)
+  (SUB a Z)
+  (SUB Z b))
+```
+
+At the heart of this capability is the [SUBLEQ](https://en.wikipedia.org/wiki/One_instruction_set_computer#Subtract_and_branch_if_less_than_or_equal_to_zero) primitive, which is Turing Equivalent.
+
+In this example, `Z` is a temporary register created every time `ADD` is called, and deleted once it's done executing.
+An opcode may use multiple temporary registers.
+
 
 ## License
 
