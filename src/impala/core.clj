@@ -49,6 +49,23 @@
   []
   (keyword (gensym)))
 
+(defmacro defop
+  "([name doc-string? [params*] [temps*] body])
+  Creates a new opcode. Temporary registers, if any, will
+  be deleted once the instruction has been executed.
+  See impala.lib for usage."
+  [name & stuff]
+  (let [has-doc?   (-> stuff first string?)
+        doc-string (if has-doc? (first stuff))
+        [argv tempv & body] (if has-doc? (rest stuff) stuff)]
+   `(defn ~name ~(vec (cons 'env argv))
+      (let [~@(apply concat (for [t tempv]
+                              [t (temp)]))]
+        ~@(for [[op & args] body]
+             (cons op (cons 'env args)))
+        ~@(for [t tempv]
+             (list 'DEL 'env t))))))
+
 (defn mk-env
   "Returns a fresh environment with the given program ready
   to be executed."
@@ -64,9 +81,9 @@
   "Executes the instruction pointed at by the IP.
   Returns the updated env."
   [env]
-  (let [    instr-q (:instr-q @env)
-                 IP (:IP @env)
-        [op & args] (instr-q IP)]
+  (let [instr-q     (:instr-q @env)
+        IP          (:IP      @env)
+        [op & args] (instr-q  IP)]
     (apply op env args)
     env))
 

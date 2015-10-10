@@ -1,25 +1,21 @@
 (ns impala.lib
   (:use impala.core))
 
-(defn SUB
+(defop SUB
   "b := b - a"
-  [env a b]
-  (SUBLEQ env a b))
+  [a b] []
+  (SUBLEQ a b))
 
-(defn ADD
+(defop ADD
   "b := b + a"
-  [env a b]
-  (let [Z (temp)]
-    (SET env Z 0)
-    (SUB env a Z)
-    (SUB env Z b)
-    (DEL env Z)))
+  [a b] [Z]
+  (SET Z 0)
+  (SUB a Z)
+  (SUB Z b))
 
-(defn MOV
+(defop MOV
   "b := a"
-  [env a b]
-  (let [Z (temp)]
-    (SUB env b b)
-    (SUB env a Z)
-    (SUB env Z b)
-    (DEL env Z)))
+  [a b] [Z]
+  (SUB b b)
+  (SUB a Z)
+  (SUB Z b))
