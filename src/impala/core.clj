@@ -33,7 +33,7 @@
 ;; ==================
 (defn SUBLEQ
   "Turing equivalent instruction that can be used to
-  implement other 'primitives'. See lib.clj for more."
+  implement other 'primitives'. See impala.lib."
   [env a b & [c]]
   (SUB* env a b)
   (if (and (-> c nil? not)
@@ -50,10 +50,10 @@
   (keyword (gensym)))
 
 (defmacro defop
-  "([name doc-string? [params*] [temps*] body])
-  Creates a new opcode. Temporary registers, if any, will
+  "Creates a new opcode. Temporary registers, if any, will
   be deleted once the instruction has been executed.
   See impala.lib for usage."
+  {:arglists '([name doc-string? [params*] [temps*] body])}
   [name & stuff]
   (let [has-doc?   (-> stuff first string?)
         doc-string (if has-doc? (first stuff))
