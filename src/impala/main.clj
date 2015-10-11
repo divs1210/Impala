@@ -16,5 +16,7 @@
 (defn run-prog-string [s]
   (run (str->prog s) true))
 
-(defn -main [& [filename]]
-  (run-prog-string (slurp filename)))
+(defn -main [& args]
+  (if (empty? args)
+    (println "Error: no file passed to impala")
+    (run-prog-string (slurp (first args)))))
