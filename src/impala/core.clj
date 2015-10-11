@@ -85,6 +85,7 @@
         IP          (:IP      @env)
         [op & args] (instr-q  IP)]
     (apply op env args)
+    (swap! env update-in [:IP] inc)
     env))
 
 (defn run
@@ -98,7 +99,6 @@
     (println "\n=== start ===")
     (while (< (-> @env :IP) (-> @env :instr-q count))
       (step env)
-      (swap! env update-in [:IP] inc)
       (println (dissoc @env :instr-q)))
     (println "==== end ====")
     env))
