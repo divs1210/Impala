@@ -88,17 +88,24 @@
     (swap! env update-in [:IP] inc)
     env))
 
-(defn run
-  "Runs the given program in a new environment.
+(defn run-env
+  "Runs the given environment.
   Returns the updated env.
   Prints state at each step to stdout if supplied
   a truthy second argument."
-  [prog & [print?]]
-  (let [env (mk-env prog)
-        println (if print? println (fn [& args]))]
+  [env & [print?]]
+  (let [println (if print? println (fn [& args]))]
     (println "\n=== start ===")
     (while (< (-> @env :IP) (-> @env :instr-q count))
       (step env)
       (println (dissoc @env :instr-q)))
     (println "==== end ====")
     env))
+
+(defn run
+  "Runs the given program in a new environment.
+  Returns the updated env.
+  Prints state at each step to stdout if supplied
+  a truthy second argument."
+  [prog & [print?]]
+  (run-env (mk-env prog) print?))

@@ -28,10 +28,10 @@ We can even extend the instruction set by defining our own opcodes
 * in Clojure
 ```clojure
 ;; impala.core
-(defn DEL
-  "Delete variable (free memory)"
-  [env a]
-  (swap! env update-in [:vars] dissoc a))
+(defn ADD
+  "b := b + a"
+  [env a b]
+  (swap! env update-in [:vars b] + (-> @env :vars :a)))
 ```
 
 or
