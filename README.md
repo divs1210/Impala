@@ -52,6 +52,16 @@ At the heart of this capability is the [SUBLEQ](https://en.wikipedia.org/wiki/On
 In this example, `Z` is a temporary register created every time `ADD` is called, and deleted once it's done executing.
 An opcode may use multiple temporary registers.
 
+### Standalone Interpreter
+
+At the terminal, run
+
+```bash
+lein uberjar
+
+./impala test/impala/test.imp
+```
+
 
 ## License
 

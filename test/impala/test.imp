@@ -1,0 +1,3 @@
+SET :a -4
+SET :b -1
+SUBLEQ :b :a 1
