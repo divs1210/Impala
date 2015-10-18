@@ -31,7 +31,7 @@ We can even extend the instruction set by defining our own opcodes
 (defn ADD
   "b := b + a"
   [env a b]
-  (swap! env update-in [:vars b] + (-> @env :vars :a)))
+  (swap! env update-in [:vars b] + (-> @env :vars a)))
 ```
 
 or
