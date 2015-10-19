@@ -9,7 +9,6 @@
 (defop ADD
   "b := b + a"
   [a b] [Z]
-  (SET Z 0)
   (SUB a Z)
   (SUB Z b))
 

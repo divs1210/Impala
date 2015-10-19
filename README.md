@@ -27,7 +27,6 @@ We can even extend the instruction set by defining our own opcodes
 
 * in Clojure
 ```clojure
-;; impala.core
 (defn ADD
   "b := b + a"
   [env a b]
@@ -38,7 +37,7 @@ or
 
 * __in Impala byte code__!
 ```clojure
-;; impala.lib
+;; from impala.lib
 (defop ADD
   "b := b + a"
   [a b] [Z]

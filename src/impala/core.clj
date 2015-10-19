@@ -61,10 +61,12 @@
    `(defn ~name ~(vec (cons 'env argv))
       (let [~@(apply concat (for [t tempv]
                               [t (temp)]))]
-        ~@(for [[op & args] body]
-             (cons op (cons 'env args)))
         ~@(for [t tempv]
-             (list 'DEL 'env t))))))
+            (list 'SET 'env t 0))
+        ~@(for [[op & args] body]
+            (cons op (cons 'env args)))
+        ~@(for [t tempv]
+            (list 'DEL 'env t))))))
 
 (defn mk-env
   "Returns a fresh environment with the given program ready
