@@ -41,14 +41,13 @@ or
 (defop ADD
   "b := b + a"
   [a b] [Z]
-  (SET Z 0)
   (SUB a Z)
   (SUB Z b))
 ```
 
 At the heart of this capability is the [SUBLEQ](https://en.wikipedia.org/wiki/One_instruction_set_computer#Subtract_and_branch_if_less_than_or_equal_to_zero) primitive, which is Turing Equivalent.
 
-In this example, `Z` is a temporary register created every time `ADD` is called, and deleted once it's done executing.
+In this example, `Z` is a temporary register created (and set to 0) every time `ADD` is called, and deleted once it's done executing.
 An opcode may use multiple temporary registers.
 
 ### Standalone Interpreter
